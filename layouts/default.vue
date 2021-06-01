@@ -89,7 +89,7 @@ export default {
           // The signed-in user info.
           var user = result.user;
           // ...
-          this.text = "Logged in";
+          this.text = "Logged in 🎉";
           this.snackbar = true;
         })
         .catch(error => {
@@ -108,7 +108,7 @@ export default {
         .auth()
         .signOut()
         .then(() => {
-          this.text = "Logged out";
+          this.text = "Logged out ❌";
           this.snackbar = true;
         })
         .catch(error => {

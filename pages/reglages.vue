@@ -8,7 +8,7 @@
             <v-checkbox v-model="notifications"></v-checkbox>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Notifications</v-list-item-title>
+            <v-list-item-title>Notifications 🔔</v-list-item-title>
             <v-list-item-subtitle
               >En plus je crois que Nuxt offre une intégration avec Onesignal.</v-list-item-subtitle
             >
@@ -35,7 +35,7 @@
             <v-switch v-model="darkMode"></v-switch>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Mode nuit</v-list-item-title>
+            <v-list-item-title>Mode nuit 🌙</v-list-item-title>
             <v-list-item-subtitle
               >Change les couleurs (incroyable hein ?)</v-list-item-subtitle
             >
