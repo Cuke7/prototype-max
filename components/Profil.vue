@@ -10,15 +10,13 @@
       <v-card-title>
         Profil du compte
       </v-card-title>
-      <v-row justify="center" class="my-6">
-        <v-col cols="5">
-          <v-avatar size="auto">
-            <img v-bind:src="user.photoURL" alt="John" v-if="user" />
-          </v-avatar>
-        </v-col>
-      </v-row>
+      <div class="text-center">
+        <v-avatar size="100">
+          <img v-bind:src="user.photoURL" alt="John" v-if="user" />
+        </v-avatar>
+      </div>
 
-      <v-card-text v-if="user">
+      <v-card-text v-if="user" class="mt-12">
         <v-row>
           {{ user.displayName }}
         </v-row>

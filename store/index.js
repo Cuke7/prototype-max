@@ -1,6 +1,5 @@
 export const state = () => ({
-  user: null,
-  darkMode: false
+  user: null
 });
 
 export const mutations = {
@@ -14,9 +13,6 @@ export const mutations = {
       state.user = { uid, email, emailVerified, displayName, photoURL };
       console.log("Logged in", authUser);
     }
-  },
-  updateDarkMode(state, darkMode) {
-    state.darkMode = darkMode;
   }
 };
 

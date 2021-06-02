@@ -36,10 +36,11 @@
       <v-container>
         <nuxt />
       </v-container>
-      <v-snackbar v-model="snackbar" timeout="5000">
-        {{ text }}
-      </v-snackbar>
     </v-main>
+
+    <v-snackbar v-model="snackbar" timeout="5000">
+      {{ text }}
+    </v-snackbar>
 
     <v-footer app>
       <span>ElectroEasy &copy; {{ new Date().getFullYear() }}</span>
@@ -48,7 +49,9 @@
 </template>
 
 <script>
+import AddButton from "../components/AddButton.vue";
 export default {
+  components: { AddButton },
   data() {
     return {
       snackbar: false,
@@ -62,7 +65,7 @@ export default {
           to: "/"
         },
         {
-          icon: "mdi-chart-bubble",
+          icon: "mdi-cog",
           title: "Réglages",
           to: "/reglages"
         }
@@ -115,6 +118,15 @@ export default {
           // An error happened.
         });
     }
+  },
+  mounted: function() {
+    this.$nextTick(function() {
+      if (localStorage.settings) {
+        let settings = JSON.parse(localStorage.settings);
+        console.log(settings);
+        this.$vuetify.theme.dark = settings.darkMode;
+      }
+    });
   }
 };
 </script>
