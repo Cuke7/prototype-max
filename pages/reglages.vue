@@ -40,7 +40,7 @@ export default {
   data: () => ({
     settings: {
       notifications: false,
-      darkMode: true
+      darkMode: false
     }
   }),
   watch: {
