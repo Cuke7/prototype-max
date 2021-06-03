@@ -62,7 +62,7 @@ export default {
             this.$OneSignal.isPushNotificationsEnabled(isEnabled => {
               if (isEnabled) {
                 console.log("Push notifications are enabled!");
-                this.$OneSignal.getUserId(function(userId) {
+                this.$OneSignal.getUserId(userId => {
                   // Make a POST call to your server with the user ID
                   // Mixpanel Example
                   // mixpanel.people.set({ $onesignal_user_id: userId });
