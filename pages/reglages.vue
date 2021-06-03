@@ -32,12 +32,23 @@
         </v-list-item>
       </v-list>
     </v-col>
+    <v-snackbar v-model="snackbar" timeout="-1">
+      {{ text }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+          Fermer
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-row>
 </template>
 
 <script>
 export default {
   data: () => ({
+    snackbar: false,
+    text: "",
     settings: {
       notifications: false,
       darkMode: false
@@ -46,6 +57,26 @@ export default {
   watch: {
     settings: {
       handler: function(settings) {
+        if (settings.notifications == true) {
+          this.$OneSignal.push(() => {
+            this.$OneSignal.isPushNotificationsEnabled(isEnabled => {
+              if (isEnabled) {
+                console.log("Push notifications are enabled!");
+                this.$OneSignal.getUserId(function(userId) {
+                  // Make a POST call to your server with the user ID
+                  // Mixpanel Example
+                  // mixpanel.people.set({ $onesignal_user_id: userId });
+                  console.log("OneSignal player ID : ", userId);
+                  this.text = "OneSignal player ID : " + userId;
+                  this.snackbar = true;
+                });
+              } else {
+                console.log("Push notifications are not enabled yet.");
+              }
+            });
+          });
+        }
+
         localStorage.settings = JSON.stringify(settings);
         this.$vuetify.theme.dark = settings.darkMode;
       },
