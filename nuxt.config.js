@@ -72,9 +72,17 @@ export default {
       projectId: "prototype-party-planner",
       storageBucket: "prototype-party-planner.appspot.com",
       messagingSenderId: "803603139154",
-      appId: "1:803603139154:web:886589fc2d9b5acb0a2d8b"
+      appId: "1:803603139154:web:886589fc2d9b5acb0a2d8b",
+      databaseURL:
+        "https://prototype-party-planner-default-rtdb.europe-west1.firebasedatabase.app"
     },
     services: {
+      messaging: {
+        createServiceWorker: true,
+        fcmPublicVapidKey:
+          "BDDiQyADw5eJi3NvuONa3LBWcpNfBmBn3fQXNsVTLLDy-C0gP1A8zPYBEwqz4m2St5t7768S_qpWQaKxnsd5578"
+      },
+      database: true,
       auth: {
         persistence: "local", // default
         initialize: {
