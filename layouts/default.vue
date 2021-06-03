@@ -123,9 +123,20 @@ export default {
     this.$nextTick(function() {
       if (localStorage.settings) {
         let settings = JSON.parse(localStorage.settings);
-        console.log(settings);
+        //console.log(settings);
         this.$vuetify.theme.dark = settings.darkMode;
       }
+
+      //OneSignal
+      this.$OneSignal.push(() => {
+        this.$OneSignal.isPushNotificationsEnabled(isEnabled => {
+          if (isEnabled) {
+            console.log("Push notifications are enabled!");
+          } else {
+            console.log("Push notifications are not enabled yet.");
+          }
+        });
+      });
     });
   }
 };

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@nuxtjs/firebase": "^7.5.0",
+    "@nuxtjs/onesignal": "*",
     "@nuxtjs/pwa": "^3.3.5",
     "core-js": "^3.9.1",
     "firebase": "^8.6.3",

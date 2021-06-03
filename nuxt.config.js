@@ -31,9 +31,20 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/pwa
+    "@nuxtjs/onesignal",
     "@nuxtjs/pwa",
     "@nuxtjs/firebase"
   ],
+
+  oneSignal: {
+    init: {
+      appId: '749c8162-608c-4937-bb4f-0747f4e845a2',
+      allowLocalhostAsSecureOrigin: true,
+      welcomeNotification: {
+          disable: true
+      }
+    }
+  },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
@@ -77,11 +88,6 @@ export default {
         "https://prototype-party-planner-default-rtdb.europe-west1.firebasedatabase.app"
     },
     services: {
-      messaging: {
-        createServiceWorker: true,
-        fcmPublicVapidKey:
-          "BDDiQyADw5eJi3NvuONa3LBWcpNfBmBn3fQXNsVTLLDy-C0gP1A8zPYBEwqz4m2St5t7768S_qpWQaKxnsd5578"
-      },
       database: true,
       auth: {
         persistence: "local", // default
