@@ -5,7 +5,7 @@
         <v-subheader>General</v-subheader>
         <v-list-item>
           <v-list-item-action>
-            <v-checkbox v-model="settings.notifications"></v-checkbox>
+            <v-checkbox v-model="notifications"></v-checkbox>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Notifications 🔔</v-list-item-title>
@@ -21,7 +21,7 @@
         <v-subheader>Apparence</v-subheader>
         <v-list-item>
           <v-list-item-action>
-            <v-switch v-model="settings.darkMode"></v-switch>
+            <v-switch v-model="darkMode"></v-switch>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Mode nuit 🌙</v-list-item-title>
@@ -32,15 +32,6 @@
         </v-list-item>
       </v-list>
     </v-col>
-    <v-snackbar v-model="snackbar" timeout="-1">
-      {{ text }}
-
-      <template v-slot:action="{ attrs }">
-        <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
-          Fermer
-        </v-btn>
-      </template>
-    </v-snackbar>
   </v-row>
 </template>
 
@@ -49,44 +40,35 @@ export default {
   data: () => ({
     snackbar: false,
     text: "",
-    settings: {
-      notifications: false,
-      darkMode: false
-    }
+    notifications: false,
+    darkMode: false
   }),
+  computed: {
+    settings() {
+      let settings = {
+        notifications: this.notifications,
+        darkMode: this.darkMode
+      };
+      return settings;
+    }
+  },
   watch: {
-    settings: {
-      handler: function(settings) {
-        if (settings.notifications == true) {
-          this.$OneSignal.push(() => {
-            this.$OneSignal.isPushNotificationsEnabled(isEnabled => {
-              if (isEnabled) {
-                console.log("Push notifications are enabled!");
-                this.$OneSignal.getUserId(userId => {
-                  // Make a POST call to your server with the user ID
-                  // Mixpanel Example
-                  // mixpanel.people.set({ $onesignal_user_id: userId });
-                  console.log("OneSignal player ID : ", userId);
-                  this.text = "OneSignal player ID : " + userId;
-                  this.snackbar = true;
-                });
-              } else {
-                console.log("Push notifications are not enabled yet.");
-              }
-            });
-          });
-        }
-
-        localStorage.settings = JSON.stringify(settings);
-        this.$vuetify.theme.dark = settings.darkMode;
-      },
-      deep: true
+    darkMode(val) {
+      this.$vuetify.theme.dark = val;
+      localStorage.settings = JSON.stringify(this.settings);
+    },
+    notifications() {
+      localStorage.settings = JSON.stringify(this.settings);
     }
   },
   mounted: function() {
     this.$nextTick(function() {
-      if (localStorage.settings) {
-        this.settings = JSON.parse(localStorage.settings);
+      let settingsStored = localStorage.settings;
+      if (settingsStored) {
+        let settings = JSON.parse(settingsStored);
+        for (const [key, value] of Object.entries(settings)) {
+          this[key] = value;
+        }
       }
     });
   }

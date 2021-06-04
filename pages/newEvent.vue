@@ -38,14 +38,14 @@
       <v-card-title>Répartition</v-card-title>
       <v-card-text>
         <v-row align="center" justify="space-between">
-          <v-col cols="3">
+          <v-col cols="2">
             <v-text-field
               label="Nbr"
               type="number"
               v-model="nbr"
             ></v-text-field>
           </v-col>
-          <v-col cols="auto">
+          <v-col cols="6">
             <v-text-field label="Amener..." v-model="amener"></v-text-field>
           </v-col>
           <v-col cols="auto">
@@ -107,52 +107,38 @@ export default {
       this.requirements.push({ amener, nbr });
     },
     writeDatabase() {
-      this.$fire.messaging.onMessage(payload => {
-        console.log("Message received. ", payload);
-        // ...
-      });
-      this.$fire.messaging
-        .getToken({
-          vapidKey:
-            "BDDiQyADw5eJi3NvuONa3LBWcpNfBmBn3fQXNsVTLLDy-C0gP1A8zPYBEwqz4m2St5t7768S_qpWQaKxnsd5578"
-        })
-        .then(currentToken => {
-          if (currentToken) {
-            // Send the token to your server and update the UI if necessary
-            // ...
-            console.log(currentToken);
-          } else {
-            // Show permission request UI
-            console.log(
-              "No registration token available. Request permission to generate one."
-            );
-            // ...
-          }
-        })
-        .catch(err => {
-          console.log("An error occurred while retrieving token. ", err);
-          // ...
-        });
-      // var newPostKey = this.$fire.database
-      //   .ref()
-      //   .child("posts")
-      //   .push().key;
+      var newPostKey = this.$fire.database
+        .ref()
+        .child("events")
+        .push().key;
 
-      // this.$fire.database.ref("events/" + newPostKey).set({
-      //   eventData: this.evenement
-      // });
+      this.$fire.database.ref("events/").set(
+        {
+          [newPostKey]: this.evenement
+        },
+        error => {
+          if (error) {
+            console.log("Failed to write to database", error);
+          } else {
+            console.log("Event saved to database");
+          }
+        }
+      );
     }
   },
   computed: {
     evenement() {
       return {
-        owner: this.$store.state.user,
-        titre: this.titre,
-        description: this.description,
-        adresse: this.adresse,
-        date: this.date,
-        heure: this.heure,
-        requirements: this.requirements
+        host: this.$store.state.user,
+        eventData: {
+          titre: this.titre,
+          description: this.description,
+          adresse: this.adresse,
+          date: this.date,
+          heure: this.heure,
+          requirements: this.requirements
+        },
+        participants: []
       };
     }
   }

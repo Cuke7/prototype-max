@@ -126,23 +126,6 @@ export default {
         //console.log(settings);
         this.$vuetify.theme.dark = settings.darkMode;
       }
-
-      //OneSignal
-      this.$OneSignal.push(() => {
-        this.$OneSignal.isPushNotificationsEnabled(isEnabled => {
-          if (isEnabled) {
-            console.log("Push notifications are enabled!");
-            this.$OneSignal.getUserId(function(userId) {
-              // Make a POST call to your server with the user ID
-              // Mixpanel Example
-              // mixpanel.people.set({ $onesignal_user_id: userId });
-              console.log("OneSignal player ID : ", userId);
-            });
-          } else {
-            console.log("Push notifications are not enabled yet.");
-          }
-        });
-      });
     });
   }
 };

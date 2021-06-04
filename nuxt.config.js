@@ -31,20 +31,9 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/pwa
-    "@nuxtjs/onesignal",
     "@nuxtjs/pwa",
     "@nuxtjs/firebase"
   ],
-
-  oneSignal: {
-    init: {
-      appId: '749c8162-608c-4937-bb4f-0747f4e845a2',
-      allowLocalhostAsSecureOrigin: true,
-      welcomeNotification: {
-          disable: true
-      }
-    }
-  },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
