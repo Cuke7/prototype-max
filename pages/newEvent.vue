@@ -37,25 +37,8 @@
 
       <v-card-title>Répartition</v-card-title>
       <v-card-text>
-        <v-row align="center" justify="space-between">
-          <v-col cols="2">
-            <v-text-field
-              label="Nbr"
-              type="number"
-              v-model="nbr"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6">
-            <v-text-field label="Amener..." v-model="amener"></v-text-field>
-          </v-col>
-          <v-col cols="auto">
-            <v-btn fab width="40" height="40" @click="append">
-              <v-icon>
-                mdi-plus
-              </v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
+        <AddElement @addElement="addElement"></AddElement>
+
         <v-row
           v-for="(amener, index) in requirements"
           v-bind:key="index"
@@ -69,7 +52,7 @@
             <v-row align="center">
               <v-col cols="auto"> x{{ amener.nbr }} </v-col>
               <v-col cols="auto">
-                <v-btn icon>
+                <v-btn icon @click="removeElement(amener)">
                   <v-icon>
                     mdi-delete
                   </v-icon>
@@ -79,9 +62,12 @@
           </v-col>
         </v-row>
       </v-card-text>
-      <v-btn color="blue" @click="writeDatabase">
-        Store event
-      </v-btn>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="blue" @click="writeDatabase">
+          Let's go
+        </v-btn>
+      </v-card-actions>
     </v-col>
   </v-row>
 </template>
@@ -95,16 +81,18 @@ export default {
     adresse: "2 route du fun",
     date: "29 Mai 1195",
     heure: "23h33",
-    amener: "Coca",
-    nbr: 1000,
     requirements: []
   }),
   methods: {
-    append() {
-      let amener = this.amener;
-      let nbr = this.nbr;
-      console.log(amener, nbr, this.requirements);
-      this.requirements.push({ amener, nbr });
+    addElement(data) {
+      console.log(data);
+      this.requirements.push(data);
+    },
+    removeElement(data) {
+      let suppr = confirm("Supprimer " + data.amener + " x" + data.nbr + " ?");
+      if (suppr) {
+        this.requirements.splice(this.requirements.indexOf(data));
+      }
     },
     writeDatabase() {
       var newPostKey = this.$fire.database
@@ -112,9 +100,9 @@ export default {
         .child("events")
         .push().key;
 
-      this.$fire.database.ref("events/").set(
+      this.$fire.database.ref("events/" + newPostKey).set(
         {
-          [newPostKey]: this.evenement
+          data: this.evenement
         },
         error => {
           if (error) {

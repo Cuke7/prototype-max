@@ -69,7 +69,8 @@ export default {
           title: "Réglages",
           to: "/reglages"
         }
-      ]
+      ],
+      hostedEvents: []
     };
   },
   computed: {
